@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MiniApp</title>
+  <script type="text/javascript" src="/aq-miniapp-core-0.0.14.min.js"></script>
+</head>
+<body onload="init();" style="padding-top: 40px; background-color: darkgrey; font-family: Arial, Helvetica, sans-serif;">  
+  <img id="imgCurrentUser" src="#" alt="" style="width: 60px; height: 60px;"/>
+  <div>Hello, <span id="spanCurrentUser"></span>!</div><p/>
+  <button id="btnButton" onclick="onButtonClicked();"></button><p/>
+  <div id="divShouldWin"></div>
+  <img id="imgWinImage" src="#" alt="" style="width: 120px; height: 120px;" />
+  <script type="text/javascript">
+
+    var spanCurrentUser = document.getElementById("spanCurrentUser");
+    var divShouldWin = document.getElementById("divShouldWin");
+    var imgWinImage = document.getElementById("imgWinImage");
+    var imgCurrentUser = document.getElementById("imgCurrentUser");
+    var btnButton = document.getElementById("btnButton");
+
+    var hasChecked = false;
+    var currentData = null;
+
+    // Get some references to the AQ Core objects
+    var defaultLifeCycle = window.AQCore.defaultLifeCycle;
+    var Utils = window.AQCore.Utils;
+    
+    function init(){
+      // App-specific setup
+      btnButton.innerText = "Check if you won";
+
+      // Setup callback methods that AQ Host app requires
+      defaultLifeCycle.setOnDataCallback(onData);
+      defaultLifeCycle.setOnResetCallback(onReset);
+      
+      // Tell the host app of the background image to be used
+      defaultLifeCycle.setAppData({ backgroundImage: Utils.relativeToAbsolutePath('/bg.jpg') });
+
+      // Assets will normally be preloaded here
+      // so let's just set a delay to simulate pre-loading
+      // for simplicity's sake
+      setTimeout(onAssetsLoaded, 1000);
+    }
+
+    function onAssetsLoaded(){
+      // Once assets are loaded, and are added to your scene,
+      // we inform the AQ host app that we are ready to be displayed
+      defaultLifeCycle.informReady();
+    }
+
+    // AQ Event Callbacks
+    function onData(data) {      
+      // Do something with the data
+      currentData = data;
+      displayData();
+    }
+
+    function onReset(newData) {
+      // Reset our state
+      hasChecked = false;
+
+      // Do something with the data
+      currentData = newData;
+      displayData();
+    }
+
+    //----------------------
+    // Click handlers
+    //----------------------
+
+    // Simulate end of game by clicking end button
+    function onButtonClicked() {
+      if (!hasChecked) {
+        hasChecked = true;
+        btnButton.innerText = "End game";        
+        displayData();
+      }
+      else {
+        defaultLifeCycle.end();
+      }
+      
+    }
+
+    //----------------------
+    // Misc
+    //----------------------
+
+    function displayData(){
+      spanCurrentUser.innerText = currentData.source.displayName;
+      divShouldWin.innerText = hasChecked ? currentData.shouldWin ? "You Won!" : "You Lose!" : "";
+      imgCurrentUser.src = currentData.source.avatarSmall;
+      imgWinImage.src = hasChecked ? currentData.shouldWin ? currentData.winImage : "#" : "#";
+    }
+
+  </script>
+</body>
+</html>
