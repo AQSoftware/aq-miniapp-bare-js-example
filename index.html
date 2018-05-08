@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MiniApp</title>
-  <script type="text/javascript" src="/aq-miniapp-core-0.0.14.min.js"></script>
+  <script type="text/javascript" src="aq-miniapp-core-0.0.14.min.js"></script>
 </head>
 <body onload="init();" style="padding-top: 40px; background-color: darkgrey; font-family: Arial, Helvetica, sans-serif;">  
   <img id="imgCurrentUser" src="#" alt="" style="width: 60px; height: 60px;"/>
@@ -36,7 +36,7 @@
       defaultLifeCycle.setOnResetCallback(onReset);
       
       // Tell the host app of the background image to be used
-      defaultLifeCycle.setAppData({ backgroundImage: Utils.relativeToAbsolutePath('/bg.jpg') });
+      defaultLifeCycle.setAppData({ backgroundImage: Utils.relativeToAbsolutePath('bg.jpg') });
 
       // Assets will normally be preloaded here
       // so let's just set a delay to simulate pre-loading
