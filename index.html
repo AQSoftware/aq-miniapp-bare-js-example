@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MiniApp</title>
-  <script type="text/javascript" src="/aq-miniapp-core-0.0.14.min.js"></script>
+  <script type="text/javascript" src="/aq-miniapp-core-0.0.15.min.js"></script>
 </head>
 <body onload="init();" style="padding-top: 40px; background-color: darkgrey; font-family: Arial, Helvetica, sans-serif;">  
   <img id="imgCurrentUser" src="#" alt="" style="width: 60px; height: 60px;"/>
@@ -21,6 +21,7 @@
     var btnButton = document.getElementById("btnButton");
 
     var hasChecked = false;
+    var hasResultSubmitted = false;
     var currentData = null;
 
     // Get some references to the AQ Core objects
@@ -60,6 +61,7 @@
     function onReset(newData) {
       // Reset our state
       hasChecked = false;
+      hasResultSubmitted = false;
 
       // Do something with the data
       currentData = newData;
@@ -70,12 +72,24 @@
     // Click handlers
     //----------------------
 
-    // Simulate end of game by clicking end button
+    // Simulate subit result and end of game by clicking ≈button
     function onButtonClicked() {
       if (!hasChecked) {
         hasChecked = true;
-        btnButton.innerText = "End game";        
+        btnButton.innerText = "Submit result";        
         displayData();
+      }
+      else if (!hasResultSubmitted) {
+        hasResultSubmitted = true;
+        btnButton.innerText = "End game";
+        defaultLifeCycle.setResult({
+	  resultImageUrl: 'http://example.com/example.jpg',
+	  winCriteriaPassed: true,
+          score: {
+            value: 50,
+            target: 100
+	  }
+	});
       }
       else {
         defaultLifeCycle.end();
