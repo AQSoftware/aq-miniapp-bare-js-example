@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MiniApp</title>
-  <script type="text/javascript" src="aq-miniapp-core-0.0.15.min.js"></script>
+  <script type="text/javascript" src="aq-miniapp-core-0.0.16.min.js"></script>
 </head>
 <body onload="init();" style="padding-top: 40px; background-color: darkgrey; font-family: Arial, Helvetica, sans-serif;">  
   <img id="imgCurrentUser" src="#" alt="" style="width: 60px; height: 60px;"/>
@@ -25,10 +25,12 @@
     var currentData = null;
 
     // Get some references to the AQ Core objects
-    var defaultLifeCycle = window.AQCore.defaultLifeCycle;
-    var Utils = window.AQCore.Utils;
+    var AQCore = window.AQCore;
+    var defaultLifeCycle = AQCore.defaultLifeCycle;
+    var Utils = AQCore.Utils;
     
     function init(){
+
       // App-specific setup
       btnButton.innerText = "Check if you won";
 
@@ -83,13 +85,13 @@
         hasResultSubmitted = true;
         btnButton.innerText = "End game";
         defaultLifeCycle.setResult({
-	  resultImageUrl: 'http://example.com/example.jpg',
-	  winCriteriaPassed: true,
+	        resultImageUrl: 'http://example.com/example.jpg',
+	        winCriteriaPassed: AQCore.WIN_CRITERIA_WIN,
           score: {
             value: 50,
             target: 100
-	  }
-	});
+          }
+        });
       }
       else {
         defaultLifeCycle.end();
