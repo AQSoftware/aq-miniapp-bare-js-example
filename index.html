@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MiniApp</title>
-  <script type="text/javascript" src="aq-miniapp-core-0.0.16.min.js"></script>
+  <script type="text/javascript" src="aq-miniapp-core-0.0.17.min.js"></script>
 </head>
 <body onload="init();" style="padding-top: 40px; background-color: darkgrey; font-family: Arial, Helvetica, sans-serif;">  
   <img id="imgCurrentUser" src="#" alt="" style="width: 60px; height: 60px;"/>
@@ -26,8 +26,8 @@
 
     // Get some references to the AQ Core objects
     var AQCore = window.AQCore;
-    var defaultLifeCycle = AQCore.defaultLifeCycle;
-    var Utils = AQCore.Utils;
+    var aqLifeCycle = AQCore.LifeCycle;
+    var aqUtils = AQCore.Utils;
     
     function init(){
 
@@ -35,11 +35,11 @@
       btnButton.innerText = "Check if you won";
 
       // Setup callback methods that AQ Host app requires
-      defaultLifeCycle.setOnDataCallback(onData);
-      defaultLifeCycle.setOnResetCallback(onReset);
+      aqLifeCycle.setOnDataCallback(onData);
+      aqLifeCycle.setOnResetCallback(onReset);
       
       // Tell the host app of the background image to be used
-      defaultLifeCycle.setAppData({ backgroundImage: Utils.relativeToAbsolutePath('bg.jpg') });
+      aqLifeCycle.setAppData({ backgroundImage: aqUtils.relativeToAbsolutePath('bg.jpg') });
 
       // Assets will normally be preloaded here
       // so let's just set a delay to simulate pre-loading
@@ -50,7 +50,7 @@
     function onAssetsLoaded(){
       // Once assets are loaded, and are added to your scene,
       // we inform the AQ host app that we are ready to be displayed
-      defaultLifeCycle.informReady();
+      aqLifeCycle.informReady();
     }
 
     // AQ Event Callbacks
@@ -74,7 +74,7 @@
     // Click handlers
     //----------------------
 
-    // Simulate subit result and end of game by clicking ≈button
+    // Simulate submit result and end of game by clicking ≈button
     function onButtonClicked() {
       if (!hasChecked) {
         hasChecked = true;
@@ -84,7 +84,7 @@
       else if (!hasResultSubmitted) {
         hasResultSubmitted = true;
         btnButton.innerText = "End game";
-        defaultLifeCycle.setResult({
+        aqLifeCycle.setResult({
 	        resultImageUrl: 'http://example.com/example.jpg',
 	        winCriteria: AQCore.WIN_CRITERIA_WIN,
           score: {
@@ -94,7 +94,7 @@
         });
       }
       else {
-        defaultLifeCycle.end();
+        aqLifeCycle.end();
       }
       
     }
